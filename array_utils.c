@@ -16,3 +16,10 @@ int areEqual (ArrayUtil first_array,ArrayUtil second_array){
      };
      return 0;
 };
+
+ArrayUtil resize (ArrayUtil Array , int length){
+    int size_required = (length *Array.typeSize);
+    Array.base = realloc(Array.base , size_required);
+    Array.length = length;
+    return Array;
+};
