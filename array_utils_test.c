@@ -42,8 +42,13 @@ void test_for_areEqual (){
     assert(areEqual(array2, array3) == 0);
 
 };
-
+void test_dispose() {
+    ArrayUtil array;
+    array = create(1, 10);
+    dispose (array);
+};
 int main(){
     test_for_create();
     test_for_areEqual();
-}
+    test_for_resize();
+};

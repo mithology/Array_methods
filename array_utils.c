@@ -17,6 +17,10 @@ int areEqual (ArrayUtil first_array,ArrayUtil second_array){
      return 0;
 };
 
+void dispose (ArrayUtil array){
+    free(array.base);
+};
+
 ArrayUtil resize (ArrayUtil Array , int length){
     int size_required = (length *Array.typeSize);
     Array.base = realloc(Array.base , size_required);
