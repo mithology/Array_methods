@@ -43,12 +43,30 @@ void test_for_areEqual (){
 
 };
 void test_dispose() {
-    ArrayUtil array;
-    array = create(1, 10);
-    dispose (array);
+    ArrayUtil array1,array2;
+    array1 = create(1, 10);
+    dispose (array1);
+    array2 = create (sizeof(double),4);
+    dispose (array2);
 };
+
+void test_for_find_index(){
+	ArrayUtil array;
+	array = create(4,2);
+	int * numbers = (int *)(array.base);
+	numbers[0]='1';
+	numbers[1]='2';
+	int first_element = '1';
+	int second_element = '2';
+	int extra_element = '3';
+	assert(findIndex(array,&first_element)==0);
+	assert(findIndex(array,&second_element)==1);
+	assert(findIndex(array,&extra_element)==-1);
+	dispose(array);
+}
 int main(){
     test_for_create();
     test_for_areEqual();
     test_for_resize();
+    test_for_find_index();
 };
