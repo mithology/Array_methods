@@ -34,8 +34,7 @@ int findIndex(ArrayUtil array, void* element){
 	for (int count = 0; count < array.length; count++){
 		if(memcmp(value_of_array,element,array.typeSize)==0)
 			return count;
-		// value_of_array += array.typeSize;
-	}
+        };
 	return -1;
 };
 

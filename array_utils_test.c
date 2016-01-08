@@ -63,15 +63,65 @@ void test_for_find_index(){
 	assert(findIndex(array,&extra_element)==-1);
 	dispose(array);
 };
-// void test_for_find_first(){
-//
-// };
+
+int isEven(void *hint, void *item){
+    int *numbers = (int *)item;
+    return !(*numbers % 2);
+}
+int isDivisible(void* hint, void* item){
+    int *numerator = (int *)item;
+    int *denomenator = (int *)hint;
+    return !(*numerator % *denomenator);
+};
+void test_for_find_first(){
+    ArrayUtil array;
+    array = create (sizeof(int),6);
+    int *numbers = (int *) (array.base);
+    numbers[0] = 1;
+    numbers[1] = 2;
+    numbers[2] = 3;
+    numbers[3] = 5;
+    numbers[4] = 14;
+    numbers[5] = 16;
+
+void * hint = NULL;
+   int * value = (int *)findFirst(array ,&isEven, hint);
+   assert(*value == 2);
+
+   hint = (void *)&numbers[1];
+   value = (int *)findFirst(array, &isDivisible, hint);
+   assert(*value == 2);
+};
+void test_for_find_last(){
+    ArrayUtil array;
+    array = create (sizeof(int),8);
+    int *numbers = (int *) (array.base);
+    numbers[0] = 1;
+    numbers[1] = 2;
+    numbers[2] = 3;
+    numbers[3] = 5;
+    numbers[4] = 14;
+    numbers[5] = 16;
+    numbers[6] = 15;
+    numbers[7] = 11;
+
+
+void * hint = NULL;
+   int * value = (int *)findLast(array ,&isEven, hint);
+   assert(*value == 16);
+
+   hint = (void *)&numbers[2];
+   value = (int *)findLast(array, &isDivisible, hint);
+   assert(*value == 15);
+};
 
 int main(){
     test_for_create();
     test_for_areEqual();
     test_for_resize();
     test_dispose();
-    // test_for_find_index();
-    // test_for_find_first();
+    test_for_find_index();
+    test_for_find_first();
+    test_for_find_last();
+
 };
