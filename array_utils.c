@@ -19,11 +19,11 @@ int areEqual (ArrayUtil first_array,ArrayUtil second_array){
      return 0;
 };
 
-ArrayUtil resize (ArrayUtil Array , int length){
-    int size_required = (length *Array.typeSize);
-    Array.base = realloc(Array.base , size_required);
-    Array.length = length;
-    return Array;
+ArrayUtil resize (ArrayUtil array , int length){
+    int size_required = (length *array.typeSize);
+    array.base = realloc(array.base , size_required);
+    array.length = length;
+    return array;
 };
 void dispose (ArrayUtil array){
     free(array.base);
@@ -34,7 +34,27 @@ int findIndex(ArrayUtil array, void* element){
 	for (int count = 0; count < array.length; count++){
 		if(memcmp(value_of_array,element,array.typeSize)==0)
 			return count;
-		value_of_array += array.typeSize;
+		// value_of_array += array.typeSize;
 	}
 	return -1;
+};
+
+void* findFirst(ArrayUtil array,MatchFunc* match, void* hint){
+    int index;
+    int *elements = array.base;
+    for(index = 0; index < array.length ; index++){
+        if(match(hint,&elements[index]))
+            return &elements[index];
+    }
+    return NULL;
+};
+
+void* findLast(ArrayUtil array, MatchFunc* match, void* hint){
+    int index;
+    int *elements = array.base;
+    for(index = array.length - 1; index >=0 ; index--){
+        if(match(hint,&elements[index]))
+            return &elements[index];
+    }
+    return NULL;
 };
