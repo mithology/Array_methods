@@ -69,9 +69,10 @@ int isEven(void *hint, void *item){
     return !(*numbers % 2);
 }
 int isDivisible(void* hint, void* item){
-    int *numerator = (int *)item;
-    int *denomenator = (int *)hint;
-    return !(*numerator % *denomenator);
+    int * numerator = (int *)(item);
+	int * denominator = (int *)(hint);
+	if(( *numerator % *denominator ) == 0) return 1;
+	return 0;
 };
 void test_for_find_first(){
     ArrayUtil array;
@@ -114,14 +115,80 @@ void * hint = NULL;
    value = (int *)findLast(array, &isDivisible, hint);
    assert(*value == 15);
 };
+void test_for_count(){
+ArrayUtil array;
+array = create (sizeof(int),8);
+int *numbers = (int *) (array.base);
+numbers[0] = 1;
+numbers[1] = 2;
+numbers[2] = 3;
+numbers[3] = 5;
+numbers[4] = 14;
+numbers[5] = 16;
+numbers[6] = 15;
+numbers[7] = 11;
 
-int main(){
-    test_for_create();
-    test_for_areEqual();
-    test_for_resize();
-    test_dispose();
-    test_for_find_index();
-    test_for_find_first();
-    test_for_find_last();
+void * hint_of_even = NULL;
+int count_even_no = count(array, &isEven, hint_of_even);
+assert(count_even_no == 3);
 
+int hint_of_divide = 5;
+int count_divided_value  = count(array, &isDivisible, &hint_of_divide);
+assert(count_divided_value  == 2);
+dispose(array);
+};
+
+void multiply(void* hint, void* firstItem, void* lastItem){
+	int * multiply_hint = (int *)hint;
+	int * first = (int *)firstItem;
+	*(int *)lastItem = (* multiply_hint) * (*first);
+}
+
+void test_for_map(){
+	ArrayUtil first_array = create(4,5);
+	ArrayUtil last_array = create(4,5);
+
+	int *numbers = (int *)(first_array.base);
+
+	numbers[0] = 1;
+	numbers[1] = 3;
+	numbers[2] = 6;
+	numbers[3] = 8;
+	numbers[4] = 5;
+
+	int multiply_hint = 3;
+	map(first_array, last_array, &multiply, & multiply_hint);
+	int * last_numbers = (int *)(last_array.base);
+	assert(last_numbers[0]==3);
+	assert(last_numbers[1]==9);
+	assert(last_numbers[2]==18);
+	assert(last_numbers[3]==24);
+	assert(last_numbers[4]==15);
+	dispose(first_array);
+	dispose(last_array);
+};
+
+void add (void *hint ,void *item){
+    int * add_hint  =(int *) hint;
+    *(int *)item = *(int *)item + *add_hint;
+};
+
+void test_for_forEach(){
+    ArrayUtil array = create (4,5);
+    int *numbers = (int *)(array.base);
+
+    numbers[0] = 1;
+	numbers[1] = 3;
+	numbers[2] = 6;
+	numbers[3] = 8;
+	numbers[4] = 5;
+
+    int add_hint = 5;
+    forEach(array, &add ,&add_hint);
+    assert(numbers[0]==6);
+	assert(numbers[1]==8);
+	assert(numbers[2]==11);
+	assert(numbers[3]==13);
+	assert(numbers[4]==10);
+	dispose(array);
 };

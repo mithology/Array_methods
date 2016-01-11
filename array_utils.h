@@ -4,6 +4,10 @@ typedef struct{
     int length;
 }ArrayUtil;
 typedef int (MatchFunc) (void *, void *);
+typedef void (ConvertFunc)(void *, void *, void *);
+typedef void (OperationFunc)(void *, void *);
+
+
 
 ArrayUtil create(int ,int);
 int areEqual(ArrayUtil, ArrayUtil);
@@ -12,3 +16,6 @@ void dispose(ArrayUtil array);
 int findIndex(ArrayUtil array, void* element);
 void* findFirst(ArrayUtil array , MatchFunc match, void* hint);
 void* findLast(ArrayUtil array , MatchFunc match, void* hint);
+int count(ArrayUtil array, MatchFunc* match, void* hint);
+void map(ArrayUtil source, ArrayUtil destination, ConvertFunc* convert, void* hint);
+void forEach(ArrayUtil array, OperationFunc* operation, void* hint);

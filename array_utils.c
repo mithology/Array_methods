@@ -57,3 +57,30 @@ void* findLast(ArrayUtil array, MatchFunc* match, void* hint){
     }
     return NULL;
 };
+
+int count(ArrayUtil array, MatchFunc* match, void* hint){
+    int elements = 0;
+	int * numbers = array.base;
+		for (int index = 0; index < array.length; index++)
+			if(match(hint,&numbers[index]))
+				elements++;
+	return elements;
+};
+
+void map(ArrayUtil source, ArrayUtil destination, ConvertFunc* convert, void* hint){
+    void * elements_of_source = source.base;
+    void * elements_of_destination = destination.base;
+    for(int i = 0; i<source.length; i++){
+        convert(hint,elements_of_source,elements_of_destination);
+        elements_of_source += source.typeSize;
+        elements_of_destination += destination.typeSize;
+    };
+};
+
+void forEach(ArrayUtil array, OperationFunc* operation, void* hint){
+	void * elements_of_array = array.base;
+	for(int i =0; i<array.length; i++){
+		operation(hint,elements_of_array);
+		elements_of_array+=array.typeSize;
+	};
+};
