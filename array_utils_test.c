@@ -67,7 +67,7 @@ void test_for_find_index(){
 int isEven(void *hint, void *item){
     int *numbers = (int *)item;
     return !(*numbers % 2);
-}
+};
 int isDivisible(void* hint, void* item){
     int * numerator = (int *)(item);
 	int * denominator = (int *)(hint);
@@ -142,7 +142,7 @@ void multiply(void* hint, void* firstItem, void* lastItem){
 	int * multiply_hint = (int *)hint;
 	int * first = (int *)firstItem;
 	*(int *)lastItem = (* multiply_hint) * (*first);
-}
+};
 
 void test_for_map(){
 	ArrayUtil first_array = create(4,5);
@@ -168,7 +168,7 @@ void test_for_map(){
 	dispose(last_array);
 };
 
-void add (void *hint ,void *item){
+void * add (void *hint ,void *item){
     int * add_hint  =(int *) hint;
     *(int *)item = *(int *)item + *add_hint;
 };
@@ -191,4 +191,55 @@ void test_for_forEach(){
 	assert(numbers[3]==13);
 	assert(numbers[4]==10);
 	dispose(array);
+};
+
+void test_for_filter () {
+    ArrayUtil array = create (4,10);
+    int *numbers = (int *)(array.base);
+
+    numbers[0] = 1;
+	numbers[1] = 2;
+	numbers[2] = 6;
+	numbers[3] = 8;
+	numbers[4] = 3;
+    numbers[5] = 4;
+	numbers[6] = 5;
+	numbers[7] = 7;
+	numbers[8] = 80;
+	numbers[9] = 59;
+
+    ArrayUtil destination_array_isEven = create (4,10);
+	void * even_hint = NULL;
+	int maxItems = 10;
+	int size = filter(array, &isEven , even_hint, destination_array_isEven.base ,maxItems);
+	assert(((int **)destination_array_isEven.base)[0] == &numbers[1]);
+	assert(((int **)destination_array_isEven.base)[1] == &numbers[2]);
+    assert(((int **)destination_array_isEven.base)[2] == &numbers[3]);
+	assert(((int **)destination_array_isEven.base)[3] == &numbers[5]);
+    assert(((int **)destination_array_isEven.base)[4] == &numbers[8]);
+	assert(size = 5);
+	dispose(array);
+	dispose(destination_array_isEven);
+};
+
+
+void* sum(void* hint, void* previousItem, void* item){
+	*(int *)previousItem += *(int *)item;
+	return previousItem;
+};
+
+void test_for_reduce(){
+	ArrayUtil array = create(4,5);
+	int *numbers = (int *)(array.base);
+
+	numbers[0] = 1;
+	numbers[1] = 3;
+	numbers[2] = 6;
+	numbers[3] = 8;
+	numbers[4] = 5;
+
+	void *hint = NULL;
+	int intialValue = 4;
+	int * result = (int *)reduce(array, &sum, hint, &intialValue);
+	assert(* result == 27);
 };

@@ -84,3 +84,25 @@ void forEach(ArrayUtil array, OperationFunc* operation, void* hint){
 		elements_of_array+=array.typeSize;
 	};
 };
+
+int filter(ArrayUtil array, MatchFunc* match, void* hint, void** destination, int maxItems ){
+    int count = 0,index;
+    void * elements = array.base;
+    for(index = 0; index  <array.length; index++){
+        if(match(hint,elements)&& count < maxItems){
+            destination[count] = elements;
+            count ++;
+        };
+        elements += array.typeSize;
+    };
+    return count;
+};
+
+void* reduce(ArrayUtil array, ReducerFunc* reducer, void* hint, void* initialValue){
+	void * elements_of_array = array.base;
+	for(int i = 0; i <array.length; i++){
+		initialValue = reducer (hint, initialValue, elements_of_array);
+		elements_of_array += array.typeSize;
+	};
+	return initialValue;
+};
