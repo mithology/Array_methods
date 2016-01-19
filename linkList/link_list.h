@@ -19,3 +19,4 @@ void *get_last_element(List);
 void forEach(List, ElementProcessor );
 void * getElementAt(List, int );
 int indexOf(List, void *);
+void * deleteElementAt(List *, int);

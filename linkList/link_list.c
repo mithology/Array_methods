@@ -46,10 +46,10 @@ void forEach(List dummy_list, ElementProcessor edit_function){
 	};
 };
 
-void * getElementAt(List dummy_list, int position){
+void * getElementAt(List dummy_list, int spot){
 	int counter = 0;
 	element * node = (element *)(dummy_list.first);
-	while(counter<position){
+	while(counter<spot){
 		node = node->next;
 		counter++;
 	};
@@ -66,4 +66,23 @@ int indexOf(List dummy_list, void * value_pointer){
 		counter++;
 	};
 	return -1;
+};
+
+void * deleteElementAt(List *dummy_list, int spot){
+	int counter = 0;
+	element * node = (element *)(dummy_list->first);
+	if(spot >= dummy_list->length) return NULL;
+	if(spot==0){
+		dummy_list->first = node->next;
+		dummy_list->length--;
+		return node->value;
+	};
+	while(counter < spot-1){
+		node = node ->next;
+		counter++;
+	};
+	element * current = node->next;
+	node->next = current->next;
+	dummy_list->length--;
+	return current->value;
 };
